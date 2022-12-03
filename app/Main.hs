@@ -1,6 +1,7 @@
-module Main (main) where
+module Main
+  ( main
+  ) where
 
-import Day1
+import           Day2Part2
 
-main :: IO ()
-main = someFunc
+main = day2Part2
