@@ -1,2 +1,1 @@
-# aoc2022
-# aoc22
+happy aoc!
