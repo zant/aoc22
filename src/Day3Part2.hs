@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 module Day3 (day3, half,  makeMap, inv) where
 
 import System.Environment (getArgs)
