@@ -8,12 +8,6 @@ import Data.Char (ord)
 {-
 General hashout
 
-We don't just want to solve the problem, we want to make it composable such
-that the functions parse the data and modify it where we need it to be which
-is the final result
-
-We want to do this whilst also achieving good time and space complexity
-
 1. A function f that given n strings, finds the common elements in linear time
 It does this by creating a map of the first string then
 - If match store it and remove it from the map
