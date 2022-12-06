@@ -49,11 +49,7 @@ execCommonMany [] = []
 
 -- | Ascii Manipulation
 ascii :: Char -> Int
-ascii v
-  | o >= 97 = o `mod` 96
-  | o < 97 = (o `mod` 64) + 26
-  where o = ord v
-ascii _ = 0
+ascii v = if v' < 97 then v' - 64 + 26 else v' - 96 where v' = ord v
 
 stringsToAscii :: [String] -> [Int]
 stringsToAscii = concatMap (map ascii)
