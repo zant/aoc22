@@ -1,37 +1,67 @@
-module Day3 (day3, half,  makeMap, inv) where
-
+module Day3Part2 (day3, group, hasCommon, commonMany, execCommonMany, ascii, stringsToAscii) where
 import System.Environment (getArgs)
-import Prelude
 import qualified Data.Map as Map
+import Utils (HMap, makeMap)
+import Data.Maybe (catMaybes)
 import Data.Char (ord)
 
-type HMap = Map.Map Char Char
+{-
+General hashout
 
-makePair x = (x, x)
-half x = splitAt s x where s = length x `div` 2 
+We don't just want to solve the problem, we want to make it composable such
+that the functions parse the data and modify it where we need it to be which
+is the final result
 
-makeMap = Map.fromList . map makePair
+We want to do this whilst also achieving good time and space complexity
 
-inv :: Char -> HMap -> (Int, HMap)
-inv k m = case Map.lookup k m of
-      Just v -> (ascii v, Map.delete k m)
-      Nothing -> (0, m)
+1. A function f that given n strings, finds the common elements in linear time
+It does this by creating a map of the first string then
+- If match store it and remove it from the map
+- If not match go to the next one
+- If the second string already doesn't have any elements in common return early (optimization)
 
-same :: ([Char], HMap) -> Int -> Int
-same (x : xs, m) s = s + same (xs, m') s' where 
-    (s', m') = inv x m
-same ([], _) s = s
+A function that groups an array of m strings in n groups
 
+Then we just pass the group to the first function
+-}
+
+-- | Base case and inductive
+group :: Int -> [a] -> [[a]]
+group _ [] = []
+group n arr = take n arr : group n (drop n arr)
+
+findInMap :: Ord a => (a, HMap a) -> (Maybe a, HMap a)
+findInMap (k, m) = case Map.lookup k m of
+  Just v -> (Just v, Map.delete k m)
+  Nothing -> (Nothing, m)
+
+hasCommon :: HMap Char -> [Char] -> [Char]
+hasCommon _ [] = []
+hasCommon m (x : xs) = let (v, m') = findInMap (x, m) in catMaybes [v] ++ hasCommon m' xs
+
+commonMany :: String -> [String] -> [Char]
+commonMany m [] = m
+commonMany m (x : xs) = commonMany m' xs where m' = hasCommon (makeMap m) x
+
+execCommonMany :: [String] -> [Char]
+execCommonMany (x : xs) = commonMany x xs
+execCommonMany [] = []
+
+-- | Ascii Manipulation
 ascii :: Char -> Int
 ascii v
-  | o > 97 = o `mod` 96
+  | o >= 97 = o `mod` 96
   | o < 97 = (o `mod` 64) + 26
   where o = ord v
 ascii _ = 0
 
+stringsToAscii :: [String] -> [Int]
+stringsToAscii = concatMap (map ascii)
+
+day3 :: IO ()
 day3 = do
   args <- getArgs
   content <- readFile $ head args
-  let linesContent = lines content
-  let mapIt (x, y)= (x, makeMap y)
-  print $ sum $ map (\x -> same ((mapIt . half) x) 0) linesContent
+  let contentLines = lines content
+  let matches = map execCommonMany $ group 3 contentLines
+  print $ ("Result is: " ++) . show $ sum $ stringsToAscii matches

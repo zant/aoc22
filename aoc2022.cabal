@@ -31,6 +31,7 @@ library
       Day2Part2
       Day3
       Day3Part2
+      Utils
   other-modules:
       Paths_aoc2022
   hs-source-dirs:
