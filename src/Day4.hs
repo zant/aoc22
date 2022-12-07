@@ -23,9 +23,6 @@ parsePairs = do
 fullyContained :: ((Int, Int), (Int, Int)) -> Int
 fullyContained ((a,b), (c,d)) = if min (c - a) (b - d) >= 0 || min (a - c) (d - b) >= 0 then 1 else 0
 
-inRange :: ((Int, Int), (Int, Int)) -> Int
-inRange ((a,b), (c,d)) = if c - b > 0 || a - d > 0 then 0 else 1
-
 day4 = do
   args <- getArgs
   contentLines <- lines <$> readFile (head args)
