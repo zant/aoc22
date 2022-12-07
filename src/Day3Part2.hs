@@ -51,7 +51,6 @@ stringsToAscii = concatMap (map ascii)
 day3 :: IO ()
 day3 = do
   args <- getArgs
-  content <- readFile $ head args
-  let contentLines = lines content
+  contentLines <- lines <$> readFile (head args)
   let matches = map execCommonMany $ group 3 contentLines
   print $ ("Result is: " ++) . show $ sum $ stringsToAscii matches

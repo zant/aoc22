@@ -2,6 +2,6 @@ module Main
   ( main
   ) where
 
-import           Day3Part2
+import           Day4
 
-main = day3
+main = day4
