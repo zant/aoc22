@@ -1,4 +1,4 @@
-module Day5 (day5, movesParser, regularParse, replace, transition, calculate) where
+module Day5 (day5, movesParser, regularParse, replace, transition, calculate, Move, parseMoves, elems) where
 import Text.ParserCombinators.Parsec
 import System.Environment (getArgs)
 import Data.Either (rights)
