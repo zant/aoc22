@@ -33,6 +33,9 @@ library
       Day3Part2
       Day4
       Day4Part2
+      Day5
+      Day5Part2
+      Day6
       Utils
   other-modules:
       Paths_aoc2022
@@ -67,7 +70,6 @@ test-suite aoc2022-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      SpecDay3
       Paths_aoc2022
   hs-source-dirs:
       test
